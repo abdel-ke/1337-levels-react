@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   MDBCol,
   MDBContainer,
@@ -14,6 +14,31 @@ import {
 import { generateToken, checkToken } from "../helper/data";
 
 export default function Profile() {
+  const [data, setData] = useState(null)
+  const [first, setFirst] = useState(true)
+  // state = {
+  //   data: {}
+  // };
+  let cp = 0;
+  useEffect(() => {
+    // console.log("setData", JSON.parse(checkToken()));
+    // checkToken();
+    console.log("3iiiw", cp++, "first: ", first);
+    // setData(JSON.parse(checkToken()));
+  }, [first])
+
+  useEffect(() => {
+    console.log("hana", cp++, " first: ", first);
+    setFirst(false);
+  }, []);
+
+
+  // useEffect(() => {
+    // setData(JSON.parse(checkToken()));
+    // console.log("data: ", data);
+  // }, [data])
+
+  if (data)
   return (
     <div className="vh-100" style={{ backgroundColor: "#9de2ff" }}>
       <MDBContainer>
@@ -31,7 +56,7 @@ export default function Profile() {
                     />
                   </div>
                   <div className="flex-grow-1 ms-3">
-                    <MDBCardTitle>Danny McLoan</MDBCardTitle>
+                    <MDBCardTitle>{data.name}</MDBCardTitle>
                     <MDBCardText>Senior Journalist</MDBCardText>
 
                     <div
@@ -72,4 +97,5 @@ export default function Profile() {
       </MDBContainer>
     </div>
   );
+  return <h1>WAITING</h1>;
 }

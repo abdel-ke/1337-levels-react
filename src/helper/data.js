@@ -1,3 +1,14 @@
+const times = {
+  firstPromoKH: [],
+  secondPromoKH: [],
+  thirdPromoKH: [],
+  forthPromoKH: [],
+  firstPromoBG: [],
+  secondPromoBG: [],
+  thirdPromoBG: [],
+  firstPromoMED: [],
+}
+
 export const generateToken = () => {
   const axios = require("axios").default;
   const qs = require("qs");
@@ -30,7 +41,11 @@ export const generateToken = () => {
 export const checkToken = () => {
   try {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      console.log("token is empty")
+      generateToken();
+      return getData();
+    }
     const axios = require("axios").default;
     const config = {
       method: "get",
@@ -44,15 +59,16 @@ export const checkToken = () => {
       .then(function (response) {
         const data = response.data;
         if (!data.expires_in_seconds || data.expires_in_seconds < 60) {
-          console.log("call generateToken !!");
+          console.log("time will be expired, generateToken !!");
           generateToken();
+          return getData();
         } else return getData();
       })
       .catch(function (error) {
         console.log(error);
       });
   } catch (e) {
-    console.log("error try catch, ", e);
+    console.log("error try catch, tokenInfo", e);
   }
 };
 
@@ -76,3 +92,7 @@ const getData = () => {
       console.log(error);
     });
 };
+
+// const printEnv = (process) => {
+//   // console.log()
+// }
