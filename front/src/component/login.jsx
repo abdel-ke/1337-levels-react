@@ -14,13 +14,11 @@ export default function Login() {
     const getToken = async () => {
       const option = {
         method: "POST",
-        url: "https://api.intra.42.fr/oauth/token",
+        url: `${process.env.REACT_APP_INTRA}/oauth/token`,
         data: {
           grant_type: "authorization_code",
-          client_id:
-            "d3ad0daaccaa95ce0a239da9a7064ed6bd9ad5b2ff831a7b8689b94b6b4f8f51",
-          client_secret:
-            "fde8e538ae07570d4d56907cd2beb18e66b4c83bfa915c0fff14a5ce28c7d8d5",
+          client_id: `${process.env.REACT_APP_CLIENT_ID}`,
+          client_secret: `${process.env.REACT_APP_SECRET_ID}`,
           code: code,
           redirect_uri: "http://localhost:3000/",
         },
@@ -29,6 +27,8 @@ export default function Login() {
         .request(option)
         .then((data) => {
           console.table(data.data);
+          localStorage.setItem("access_token", data.data.access_token);
+          localStorage.setItem("refresh_token", data.data.refresh_token);
           return data.data;
         })
         .catch((e) => console.log(e));
@@ -36,9 +36,28 @@ export default function Login() {
     if (code) getToken();
   }, [code]);
 
-  console.log("test; ", process.env);
   const login = () => {
     //   // console.log("test; ", process.env.REACT_APP_TEST);
+    console.log("login function is empty");
+  };
+
+  const tokenInfo = async () => {
+    const info = await axios(
+      `${process.env.REACT_APP_INTRA}/oauth/token/info`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }
+    )
+      .then((data) => {
+        console.log("data: ", data.data);
+        return data.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    console.table(info);
   };
 
   return (
@@ -46,10 +65,13 @@ export default function Login() {
       <button type="submit" onClick={login}>
         Login
       </button>
-      <a href="https://api.intra.42.fr/oauth/authorize?client_id=d3ad0daaccaa95ce0a239da9a7064ed6bd9ad5b2ff831a7b8689b94b6b4f8f51&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=code">
+      {/* <a href="https://api.intra.42.fr/oauth/authorize?client_id=d3ad0daaccaa95ce0a239da9a7064ed6bd9ad5b2ff831a7b8689b94b6b4f8f51&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=code"> */}
+      <a
+        href={`${process.env.REACT_APP_INTRA}/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`}
+      >
         connect
       </a>
-      <button onClick={login}>ENV</button>
+      <button onClick={tokenInfo}>Informations about your token</button>
     </div>
   );
 }
