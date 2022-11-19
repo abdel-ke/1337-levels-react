@@ -1,0 +1,75 @@
+[
+  {
+    "_id": "19153ba4-ddf6-4edd-a320-35f0d9e5a672",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://raw-tutorial.s3.eu-west-1.amazonaws.com/patients.json\") in",
+    "url": "https://raw-tutorial.s3.eu-west-1.amazonaws.com/patients.json\") in",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-19T11:01:12.751Z",
+    "modified": "2022-11-19T11:01:12.751Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "41fb20f6-2be6-432c-acc7-c5fdcdbcd8a0",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://raw-tutorial.s3.eu-west-1.amazonaws.com/patients.json",
+    "url": "https://raw-tutorial.s3.eu-west-1.amazonaws.com/patients.json",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-19T11:01:20.224Z",
+    "modified": "2022-11-19T11:01:20.224Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "8320c107-f59f-49ce-b6a0-e44dfaca68d8",
+    "colId": "history",
+    "containerId": "",
+    "name": "token",
+    "url": "https://api.intra.42.fr/oauth/token",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-19T11:11:43.608Z",
+    "modified": "2022-11-19T15:19:09.997Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formencoded",
+      "raw": "",
+      "form": [
+        {
+          "name": "grant_type",
+          "value": "authorization_code"
+        },
+        {
+          "name": "client_id",
+          "value": "d3ad0daaccaa95ce0a239da9a7064ed6bd9ad5b2ff831a7b8689b94b6b4f8f51"
+        },
+        {
+          "name": "client_secret",
+          "value": "fde8e538ae07570d4d56907cd2beb18e66b4c83bfa915c0fff14a5ce28c7d8d5"
+        },
+        {
+          "name": "code",
+          "value": "fd24deccffcdfc60dcf5b99f105555148fa2d41f3165bd128db70c6a984ad754"
+        },
+        {
+          "name": "redirect_uri",
+          "value": "http://localhost:3000/"
+        },
+        {
+          "name": "state",
+          "value": "",
+          "isDisabled": true
+        }
+      ]
+    },
+    "tests": []
+  }
+]
