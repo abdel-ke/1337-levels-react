@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 export default function Login() {
   const [code, setCode] = useState();
+  const [refreshToekn, setRefreshToekn] = useState();
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -28,7 +29,7 @@ export default function Login() {
         .then((data) => {
           console.table(data.data);
           localStorage.setItem("access_token", data.data.access_token);
-          localStorage.setItem("refresh_token", data.data.refresh_token);
+          setRefreshToekn(data.data.refresh_token);
           return data.data;
         })
         .catch((e) => console.log(e));
@@ -52,6 +53,7 @@ export default function Login() {
     )
       .then((data) => {
         console.log("data: ", data.data);
+        // setRefreshToekn(data.data.refresh_token);
         return data.data;
       })
       .catch((e) => {
@@ -69,7 +71,7 @@ export default function Login() {
       <a
         href={`${process.env.REACT_APP_INTRA}/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`}
       >
-        connect
+        Connect
       </a>
       <button onClick={tokenInfo}>Informations about your token</button>
     </div>
