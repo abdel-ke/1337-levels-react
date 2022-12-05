@@ -1,33 +1,5 @@
 [
   {
-    "_id": "19153ba4-ddf6-4edd-a320-35f0d9e5a672",
-    "colId": "history",
-    "containerId": "",
-    "name": "https://raw-tutorial.s3.eu-west-1.amazonaws.com/patients.json\") in",
-    "url": "https://raw-tutorial.s3.eu-west-1.amazonaws.com/patients.json\") in",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-11-19T11:01:12.751Z",
-    "modified": "2022-11-19T11:01:12.751Z",
-    "headers": [],
-    "params": [],
-    "tests": []
-  },
-  {
-    "_id": "41fb20f6-2be6-432c-acc7-c5fdcdbcd8a0",
-    "colId": "history",
-    "containerId": "",
-    "name": "https://raw-tutorial.s3.eu-west-1.amazonaws.com/patients.json",
-    "url": "https://raw-tutorial.s3.eu-west-1.amazonaws.com/patients.json",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-11-19T11:01:20.224Z",
-    "modified": "2022-11-19T11:01:20.224Z",
-    "headers": [],
-    "params": [],
-    "tests": []
-  },
-  {
     "_id": "8320c107-f59f-49ce-b6a0-e44dfaca68d8",
     "colId": "history",
     "containerId": "",

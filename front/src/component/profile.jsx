@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { checkToken } from "../helper/data";
+import { checkToken, getData } from "../helper/data";
 import Moment from "moment";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,9 +12,10 @@ export default function Profile() {
   useEffect(() => {
     // console.log("checkInfo");
     const waitingData = async () => {
-      let data = await checkToken();
+      let data = await getData();
       if (data) {
         data = JSON.parse(data);
+        console.log("Profile data:  ", data);
         data = data.sort((lvl, lvl2) => lvl2.level - lvl.level);
         setUsers(data);
         setData(data);
@@ -34,13 +35,13 @@ export default function Profile() {
   useEffect(() => {
     let filterData = data;
     setUsers(
-      filterData?.filter((item) => item.user.usual_full_name.includes(search))
+      filterData?.filter((item) => item.login.includes(search))
     );
   }, [data, search]);
 
   const printName = (elm) => {
-    if (elm.grade === "Learner") return `${elm.user.login}`;
-    else return `${elm.user.login}`;
+    if (elm.grade === "Learner") return `${elm.login}`;
+    else return `${elm.login}`;
   };
 
   const printLvl = (elm) => {
@@ -66,7 +67,7 @@ export default function Profile() {
   }
 
   function profile(elm) {
-    return elm.user.location == null ? "Unavailable" : elm.user.location;
+    return elm.location == null ? "Unavailable" : elm.location;
   }
 
   return (
@@ -102,7 +103,7 @@ export default function Profile() {
                       >
                         <img
                           className=" img-fluid"
-                          src={elm.user.image.versions.large}
+                          src={elm.image}
                           alt="card face"
                           style={{ width: "100%", objectFit: "cover" }}
                         />
@@ -114,7 +115,7 @@ export default function Profile() {
                       </h4>
                       <a
                         rel="noreferrer"
-                        href={`https://profile.intra.42.fr/users/${elm.user.login}`}
+                        href={`https://profile.intra.42.fr/users/${elm.login}`}
                         target="_blank"
                         className="btn btn-primary btn-sm"
                       >
@@ -132,5 +133,6 @@ export default function Profile() {
         );
       })}
     </div>
+    // <h1>PROFILE</h1>
   );
 }
