@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-
+import Backdrop from "@mui/material/Backdrop";
 import { checkToken, getData } from "../helper/data";
 import Moment from "moment";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import Section from "./section";
+import { CircularProgress } from "@mui/material";
 
 export default function Profile() {
   const [users, setUsers] = useState();
   const [search, setSearch] = useState("");
   const [data, setData] = useState();
+  const [open, setOpen] = useState(true);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   useEffect(() => {
     console.log("PROFILE PAGE");
     const waitingData = async () => {
@@ -69,9 +75,13 @@ export default function Profile() {
     return elm.location == null ? "Unavailable" : elm.location;
   }
 
+  const onSectionProfile = (data) => {
+    console.log("onSectionProfile: ", data);
+  };
+
   return (
     <div className="row" id="home_product">
-      <Section />
+      <Section onProfile={onSectionProfile} />
       <input
         type="text"
         placeholder="Search"
@@ -79,59 +89,71 @@ export default function Profile() {
           setSearch(e.target.value);
         }}
       />
-      {users?.map((elm, index) => {
-        const currentDate = Moment();
-        const blackHoleDate = Moment(elm.blackholed_at);
-        const diffr = blackHoleDate.diff(currentDate, "days");
-        return (
-          <div
-            className="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"
-            key={index}
-          >
-            <div className="image-flip">
-              <div className="mainflip flip-0">
-                <div className="frontside">
-                  <div className="card">
-                    <div className="card-body text-center">
-                      <div
-                        style={{
-                          width: "120px",
-                          height: "120px",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                        }}
-                      >
-                        <img
-                          className=" img-fluid"
-                          src={elm.image}
-                          alt="card face"
-                          style={{ width: "100%", objectFit: "cover" }}
-                        />
+      {users ? (
+        users?.map((elm, index) => {
+          const currentDate = Moment();
+          const blackHoleDate = Moment(elm.blackholed_at);
+          const diffr = blackHoleDate.diff(currentDate, "days");
+          return (
+            <div
+              className="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"
+              key={index}
+            >
+              <div className="image-flip">
+                <div className="mainflip flip-0">
+                  <div className="frontside">
+                    <div className="card">
+                      <div className="card-body text-center">
+                        <div
+                          style={{
+                            width: "120px",
+                            height: "120px",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                          }}
+                        >
+                          <img
+                            className=" img-fluid"
+                            src={elm.image}
+                            alt="card face"
+                            style={{ width: "100%", objectFit: "cover" }}
+                          />
+                        </div>
+                        <h5 className="card-text">{printName(elm)}</h5>
+                        <h5 className="card-text">{printLvl(elm)}</h5>
+                        <h4 className={color(elm, diffr)}>
+                          {countDays(elm, diffr)}
+                        </h4>
+                        <a
+                          rel="noreferrer"
+                          href={`https://profile.intra.42.fr/users/${elm.login}`}
+                          target="_blank"
+                          className="btn btn-primary btn-sm"
+                        >
+                          {profile(elm)}
+                        </a>
+                        <h5 style={{ marginTop: "10px", marginBottom: "0px" }}>
+                          {index + 1}
+                        </h5>
                       </div>
-                      <h5 className="card-text">{printName(elm)}</h5>
-                      <h5 className="card-text">{printLvl(elm)}</h5>
-                      <h4 className={color(elm, diffr)}>
-                        {countDays(elm, diffr)}
-                      </h4>
-                      <a
-                        rel="noreferrer"
-                        href={`https://profile.intra.42.fr/users/${elm.login}`}
-                        target="_blank"
-                        className="btn btn-primary btn-sm"
-                      >
-                        {profile(elm)}
-                      </a>
-                      <h5 style={{ marginTop: "10px", marginBottom: "0px" }}>
-                        {index + 1}
-                      </h5>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })
+      ) : (
+        <div>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        </div>
+      )}
     </div>
     // <h1>PROFILE</h1>
   );
