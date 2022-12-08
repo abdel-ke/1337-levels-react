@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { saveAs } from 'file-saver'
+import { saveAs } from "file-saver";
 import { useNavigate } from "react-router-dom";
-
 
 export default function Login() {
   const [code, setCode] = useState(null);
@@ -64,30 +63,34 @@ export default function Login() {
   //   return null;
   // };
 
-  
-const getToken = async () => {
-  const option = {
-    method: "POST",
-    url: `${process.env.REACT_APP_INTRA}/oauth/token`,
-    data: {
-      grant_type: "authorization_code",
-      client_id: `${process.env.REACT_APP_CLIENT_ID}`,
-      client_secret: `${process.env.REACT_APP_SECRET_ID}`,
-      code: code,
-      redirect_uri: "http://localhost:3000/login",
-    },
+  const getToken = async () => {
+    const option = {
+      method: "POST",
+      url: `${process.env.REACT_APP_INTRA}/oauth/token`,
+      // headers: {
+      //   "Access-Control-Allow-Origin": "*",
+      //   "Access-Control-Allow-Headers":
+      //     "Origin, X-Requested-With, Content-Type, Accept",
+      // },
+      data: {
+        grant_type: "authorization_code",
+        client_id: `${process.env.REACT_APP_CLIENT_ID}`,
+        client_secret: `${process.env.REACT_APP_SECRET_ID}`,
+        code: code,
+        redirect_uri: "http://localhost:3000/login",
+      },
+    };
+    await axios
+      .request(option)
+      .then((data) => {
+        // console.table(data.data);
+        localStorage.setItem("access_token", data.data.access_token);
+        localStorage.setItem("refresh_token", data.data.refresh_token);
+        navigate("/profile");
+        return data.data;
+      })
+      .catch((e) => console.log("error getToken: ", e));
   };
-  await axios
-    .request(option)
-    .then((data) => {
-      // console.table(data.data);
-      localStorage.setItem("access_token", data.data.access_token);
-      localStorage.setItem("refresh_token", data.data.refresh_token);
-      navigate('/profile');
-      return data.data;
-    })
-    .catch((e) => console.log("error getToken: ", e));
-};
 
   useEffect(() => {
     if (code) {
@@ -111,8 +114,8 @@ const getToken = async () => {
   //   const option = {
   //     method: 'get',
   //     url: 'https://api.intra.42.fr/v2/users/abdel-ke',
-  //     headers: { 
-  //       'Authorization': `Bearer ${localStorage.getItem('access_token')}`, 
+  //     headers: {
+  //       'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
   //       // ...data.getHeaders()
   //     },
   //     // data : data
@@ -125,7 +128,7 @@ const getToken = async () => {
   return (
     <div>
       {/* <button type="submit" onClick={login}> */}
-        {/* Login */}
+      {/* Login */}
       {/* </button> */}
       {/* <a href="https://api.intra.42.fr/oauth/authorize?client_id=d3ad0daaccaa95ce0a239da9a7064ed6bd9ad5b2ff831a7b8689b94b6b4f8f51&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=code"> */}
       <a

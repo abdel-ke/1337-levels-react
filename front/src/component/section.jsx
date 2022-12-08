@@ -14,9 +14,7 @@ export default function Section() {
             aria-label="Default select example"
             // onchange="selectKH()"
           >
-            <option selected value="0">
-              1337-KH
-            </option>
+            <option value="0">1337-KH</option>
             <option value="1">1st promo</option>
             <option value="2">2nd promo</option>
             <option value="3">3rd promo</option>
@@ -31,9 +29,7 @@ export default function Section() {
             aria-label="Default select example"
             // onchange="selectBG()"
           >
-            <option selected value="0">
-              1337-BG
-            </option>
+            <option value="0">1337-BG</option>
             <option value="1">1st promo</option>
             <option value="2">2nd promo</option>
             <option value="3">Piscine</option>

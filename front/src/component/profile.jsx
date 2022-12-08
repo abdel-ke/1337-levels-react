@@ -4,13 +4,14 @@ import { checkToken, getData } from "../helper/data";
 import Moment from "moment";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import Section from "./section";
 
 export default function Profile() {
   const [users, setUsers] = useState();
   const [search, setSearch] = useState("");
   const [data, setData] = useState();
   useEffect(() => {
-    // console.log("checkInfo");
+    console.log("PROFILE PAGE");
     const waitingData = async () => {
       let data = await getData();
       if (data) {
@@ -34,9 +35,7 @@ export default function Profile() {
 
   useEffect(() => {
     let filterData = data;
-    setUsers(
-      filterData?.filter((item) => item.login.includes(search))
-    );
+    setUsers(filterData?.filter((item) => item.login.includes(search)));
   }, [data, search]);
 
   const printName = (elm) => {
@@ -72,6 +71,7 @@ export default function Profile() {
 
   return (
     <div className="row" id="home_product">
+      <Section />
       <input
         type="text"
         placeholder="Search"

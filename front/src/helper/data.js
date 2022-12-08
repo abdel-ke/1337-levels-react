@@ -111,6 +111,8 @@ export const getData = async () => {
     // url: `/v2/cursus/21/cursus_users?&filter[campus_id]=${16}&range[begin_at]=${users["thirdPromoKH"]}&page=${1}&per_page=100`,
     headers: {
       Authorization: `Bearer ${access_token}`,
+      // "Access-Control-Allow-Origin": "*",
+      // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
     },
   };
 
@@ -125,8 +127,7 @@ export const getData = async () => {
           usual_full_name: user.user.usual_full_name,
           image: user.user.image.link,
           location: user.user.location,
-
-        }
+        };
       });
       return JSON.stringify(data);
     })

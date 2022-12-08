@@ -4,7 +4,7 @@ import './App.css';
 import Login from './component/login';
 import Profile from './component/profile';
 import Section from './component/section';
-const { useNavigate } = require("react-router-dom")
+import { useNavigate, BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
   const access_token = localStorage.getItem('access_token');
@@ -27,10 +27,12 @@ function App() {
         console.table("refresh token data: ", data.data);
         localStorage.setItem("access_token", data.data.access_token);
         localStorage.setItem("refresh_token", data.data.refresh_token);
+        navigate('profile');
         return data.data;
       })
       .catch((e) => {
         console.log("error refreshtoken: ", e)
+        navigate('login');
       });
   }
 
@@ -41,6 +43,8 @@ function App() {
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
+            // "Access-Control-Allow-Origin": "*",
+            // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
           },
         }
       )
@@ -49,22 +53,24 @@ function App() {
           console.log("data: ", data);
           if (data.expires_in < 60)
             console.log("token will be expire soon");
+          navigate('profile');
           // getToken();
           return data;
         })
         .catch((e) => {
           console.log("error tokenInfo");
           // getToken();
-          get_token_from_refresh_token()
+          get_token_from_refresh_token();
         });
     }
     return null;
   };
 
   useEffect(() => {
+    console.log("salam asdi9a2");
     if (access_token) {
       tokenInfo();
-      navigate('profile');
+      // navigate('profile');
     }
     else {
       navigate('login');
@@ -72,12 +78,16 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      {/* <Section/> */}
-      {/* <Login/> */}
-      {/* <Profile/> */}
-      <h1>APP</h1>
-    </div>
+    <Section/>
+    // <Routes>
+      // <Route path="/" element={<Section />}>
+        // {/* <Route index element={<App />} /> */}
+        // {/* <Route path="/login" element={<Login />} /> */}
+        // {/* <Route path="/profile" element={<Profile />} /> */}
+      // {/* </Route> */}
+    // </Routes>
+    // <h1>APP</h1>
+  // </BrowserRouter>
   );
 }
 
