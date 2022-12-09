@@ -1,14 +1,21 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
-import Login from './component/login';
-import Profile from './component/profile';
-import Section from './component/section';
-import { useNavigate, BrowserRouter, Routes, Route } from 'react-router-dom'
+// import Login from './component/login';
+// import Profile from './component/profile';
+// import Section from './component/section';
+import { useNavigate } from 'react-router-dom'
+import  { encrypt , decrypt } from 'react-crypt-gsm';
 
 function App() {
-  const access_token = localStorage.getItem('access_token');
-  const [userExist, setUserExist] = useState(false);
+  const AT = 'access_token';
+  const RT = 'refresh_token';
+
+  const AT_decrypt = decrypt(AT);
+  const RT_decrypt = decrypt(RT);
+  
+  const access_token = decrypt(localStorage.getItem(AT_decrypt));
+  const refresh_token = decrypt(localStorage.getItem(RT_decrypt));
   const navigate = useNavigate();
 
   const get_token_from_refresh_token = async () => {
@@ -18,17 +25,17 @@ function App() {
       data: {
         grant_type: "refresh_token",
         client_id: `${process.env.REACT_APP_CLIENT_ID}`,
-        refresh_token: `${localStorage.getItem('refresh_token')}`,
+        refresh_token: refresh_token,
       },
     };
     await axios
       .request(option)
       .then((data) => {
         console.table("refresh token data: ", data.data);
-        localStorage.setItem("access_token", data.data.access_token);
-        localStorage.setItem("refresh_token", data.data.refresh_token);
+        localStorage.setItem(encrypt(AT), encrypt(data.data.access_token));
+        localStorage.setItem(encrypt(RT), encrypt(data.data.refresh_token));
         navigate('profile');
-        return data.data;
+        // return data.data;
       })
       .catch((e) => {
         console.log("error refreshtoken: ", e)
@@ -67,10 +74,8 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("salam asdi9a2");
     if (access_token) {
       tokenInfo();
-      // navigate('profile');
     }
     else {
       navigate('login');
@@ -78,7 +83,8 @@ function App() {
   }, [])
 
   return (
-    <Section/>
+    <h1>APP</h1>
+    // <Section/>
     // <Routes>
       // <Route path="/" element={<Section />}>
         // {/* <Route index element={<App />} /> */}

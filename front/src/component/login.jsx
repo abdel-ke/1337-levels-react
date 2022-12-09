@@ -1,12 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { saveAs } from "file-saver";
+// import { saveAs } from "file-saver";
 import { useNavigate } from "react-router-dom";
+import { encrypt } from "react-crypt-gsm";
 
 export default function Login() {
   const [code, setCode] = useState(null);
   const navigate = useNavigate();
+  const AT = "access_token";
+  const RT = "refresh_token";
   // const access_token = localStorage.getItem('access_token');
 
   useEffect(() => {
@@ -84,8 +87,8 @@ export default function Login() {
       .request(option)
       .then((data) => {
         // console.table(data.data);
-        localStorage.setItem("access_token", data.data.access_token);
-        localStorage.setItem("refresh_token", data.data.refresh_token);
+        localStorage.setItem(encrypt(AT), encrypt(data.data.access_token));
+        localStorage.setItem(encrypt(RT), encrypt(data.data.refresh_token));
         navigate("/profile");
         return data.data;
       })
