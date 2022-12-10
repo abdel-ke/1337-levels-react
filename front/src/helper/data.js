@@ -1,3 +1,5 @@
+import CryptoJS from "crypto-js";
+
 const users = {
   firstPromoKH: ["2018-10-02T22:00:00.000Z,2018-10-04T01:32:41.658Z"],
   secondPromoKH: ["2019-03-24T23:00:00.000Z,2019-03-28T00:00:00.000Z"],
@@ -102,9 +104,15 @@ const users = {
 //   }
 // };
 
+const genDecrypt = (crypted, key) => {
+  const ret = CryptoJS.AES.decrypt(crypted, key);
+  return ret.toString(CryptoJS.enc.Utf8);
+}
+
 export const getData = async () => {
   const axios = require("axios").default;
-  const access_token = localStorage.getItem("access_token");
+  console.log("devrypt: ", genDecrypt(localStorage.getItem("access_token"), "AT"));
+  const access_token = genDecrypt(localStorage.getItem("access_token"), "AT");
   var config = {
     method: "get",
     url: `https://api.intra.42.fr/v2/cursus/21/cursus_users?&filter[campus_id]=${16}&range[begin_at]=${users["thirdPromoKH"]}&page=${1}&per_page=100`,
@@ -133,5 +141,6 @@ export const getData = async () => {
     })
     .catch(function (error) {
       console.log("axios error getData", error);
+      console.log("axios error getData token: ", access_token);
     });
 };

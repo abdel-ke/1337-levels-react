@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 // import { saveAs } from "file-saver";
 import { useNavigate } from "react-router-dom";
-import { encrypt } from "react-crypt-gsm";
+// import { encrypt } from "react-crypt-gsm";
+// import CryptoJS from "crypto-js";
 
 export default function Login() {
   const [code, setCode] = useState(null);
@@ -87,8 +88,8 @@ export default function Login() {
       .request(option)
       .then((data) => {
         // console.table(data.data);
-        localStorage.setItem(encrypt(AT), encrypt(data.data.access_token));
-        localStorage.setItem(encrypt(RT), encrypt(data.data.refresh_token));
+        localStorage.setItem(AT, data.data.access_token);
+        localStorage.setItem(RT, data.data.refresh_token);
         navigate("/profile");
         return data.data;
       })
