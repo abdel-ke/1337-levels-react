@@ -7,7 +7,6 @@ import App from "./App";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./component/login";
 import Profile from "./component/profile";
-// import Section from "./component/section";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

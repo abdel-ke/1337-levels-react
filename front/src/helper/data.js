@@ -11,116 +11,41 @@ const users = {
   thirdPromoBG: [""],
 };
 
-// export const autorize = async () => {
-// try {
-//   const axios = require("axios").default;
-//   const config = {
-//     method: "get",
-//     url: "https://api.intra.42.fr/oauth/authorize",
-//     headers: {
-//       Cookie: "_intra_42_session_production=83efd33c905c519056ff7b44578e1d25",
-//     },
-//   };
-//   return axios(config)
-//     .then(function (response) {
-//       console.log("autorize: ", JSON.stringify(response.data));
-//       return response.data;
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-// } catch (e) {
-//   console.log("error autorize: ", e);
-// }
-// };
+export const genCrypt = (crypt, key) => {
+  return CryptoJS.AES.encrypt(crypt, key).toString();
+}
 
-// export const generateToken = async () => {
-//   const axios = require("axios").default;
-//   const qs = require("qs");
-//   const data = qs.stringify({
-//     grant_type: "client_credentials",
-//     client_id:
-//       "d3ad0daaccaa95ce0a239da9a7064ed6bd9ad5b2ff831a7b8689b94b6b4f8f51",
-//     client_secret:
-//       "fde8e538ae07570d4d56907cd2beb18e66b4c83bfa915c0fff14a5ce28c7d8d5",
-//   });
-//   const config = {
-//     method: "post",
-//     url: "https://api.intra.42.fr/oauth/token",
-//     headers: {
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//     data: data,
-//   };
-
-//   return await axios(config)
-//     .then(function (response) {
-//       const data = response.data;
-//       localStorage.setItem("token", data.access_token);
-//     })
-//     .catch(function (error) {
-//       console.log("axios error generatToken", error);
-//     });
-// };
-
-// export const checkToken = async () => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     if (!token) {
-//       // const ret = await autorize();
-//       // console.log("ret autorize: ", ret);
-//       // return ;
-//       // await generateToken();
-//       // return await getData();
-//       console.log("token is empty");
-//       generateToken();
-//       return getData();
-//     }
-//     const axios = require("axios").default;
-//     const config = {
-//       method: "get",
-//       url: "https://api.intra.42.fr/oauth/token/info",
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     };
-//     // const ret = await axios(config);
-//     return await axios(config)
-//       .then(function (response) {
-//         const data = response.data;
-//         if (!data.expires_in_seconds || data.expires_in_seconds < 60) {
-//           console.log("time will be expired, generateToken !!");
-//           generateToken();
-//           return getData();
-//         } else return getData();
-//       })
-//       .catch(function (error) {
-//         console.log("axios error checkToken", error);
-//         // generateToken();
-//         // return getData();
-//       });
-//   } catch (e) {
-//     console.log("error try catch, tokenInfo", e);
-//   }
-// };
-
-const genDecrypt = (crypted, key) => {
+export const genDecrypt = (crypted, key) => {
+  if (!crypted)
+    return null;
   const ret = CryptoJS.AES.decrypt(crypted, key);
   return ret.toString(CryptoJS.enc.Utf8);
 }
 
+export const setLocalStorage = (access_token, refresh_token) => {
+  const ATC = genCrypt(access_token, "AT");
+  const RTC = genCrypt(refresh_token, "RT");
+  localStorage.setItem("access_token", ATC);
+  localStorage.setItem("refresh_token", RTC);
+}
+
+export const getLocalStorage = () => {
+  return {
+    access_token: genDecrypt(localStorage.getItem('access_token'), "AT"),
+    refresh_token: genDecrypt(localStorage.getItem('refresh_token'), "RT")
+  }
+}
+
 export const getData = async () => {
   const axios = require("axios").default;
-  console.log("devrypt: ", genDecrypt(localStorage.getItem("access_token"), "AT"));
   const access_token = genDecrypt(localStorage.getItem("access_token"), "AT");
+  if (!access_token)
+    return null;
   var config = {
     method: "get",
     url: `https://api.intra.42.fr/v2/cursus/21/cursus_users?&filter[campus_id]=${16}&range[begin_at]=${users["thirdPromoKH"]}&page=${1}&per_page=100`,
-    // url: `/v2/cursus/21/cursus_users?&filter[campus_id]=${16}&range[begin_at]=${users["thirdPromoKH"]}&page=${1}&per_page=100`,
     headers: {
       Authorization: `Bearer ${access_token}`,
-      // "Access-Control-Allow-Origin": "*",
-      // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
     },
   };
 
@@ -142,5 +67,6 @@ export const getData = async () => {
     .catch(function (error) {
       console.log("axios error getData", error);
       console.log("axios error getData token: ", access_token);
+      return null;
     });
 };
