@@ -5,12 +5,12 @@ import Moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Section from "./section";
 import { CircularProgress } from "@mui/material";
-const { useNavigate } = require("react-router-dom")
+const { useNavigate } = require("react-router-dom");
 
 export default function Profile() {
   const [users, setUsers] = useState();
-  const [search, setSearch] = useState("");
-  const [data, setData] = useState();
+  // const [search, setSearch] = useState("");
+  // const [data, setData] = useState();
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const handleClose = () => {
@@ -24,19 +24,17 @@ export default function Profile() {
         data = JSON.parse(data);
         data = data.sort((lvl, lvl2) => lvl2.level - lvl.level);
         setUsers(data);
-        setData(data);
-      }
-      else
-        navigate('/login');
+        // setData(data);
+      } else navigate("/login");
     };
     waitingData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    let filterData = data;
-    setUsers(filterData?.filter((item) => item.login.includes(search)));
-  }, [data, search]);
+  // useEffect(() => {
+  //   let filterData = data;
+  //   setUsers(filterData?.filter((item) => item.login.includes(search)));
+  // }, [data, search]);
 
   const printName = (elm) => {
     if (elm.grade === "Learner") return `${elm.login}`;
@@ -76,13 +74,25 @@ export default function Profile() {
   return (
     <div className="row" id="home_product">
       <Section onProfile={onSectionProfile} />
-      <input
+      {/* <div class="form-outline">
+        <input
+          type="search"
+          id="form1"
+          class="form-control"
+          placeholder="Type query"
+          aria-label="Search"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+      </div> */}
+      {/* <input
         type="text"
         placeholder="Search"
         onChange={(e) => {
           setSearch(e.target.value);
         }}
-      />
+      /> */}
       {users ? (
         users?.map((elm, index) => {
           const currentDate = Moment();
@@ -110,7 +120,11 @@ export default function Profile() {
                             className=" img-fluid"
                             src={elm.image}
                             alt="card face"
-                            style={{ width: "100%", objectFit: "cover" }}
+                            style={{
+                              width: "100%",
+                              objectFit: "cover",
+                              filter: "blur(6px)",
+                            }}
                           />
                         </div>
                         <h5 className="card-text">{printName(elm)}</h5>
