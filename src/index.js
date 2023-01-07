@@ -7,6 +7,7 @@ import App from "./App";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./component/login";
 import Profile from "./component/profile";
+import Profile2 from "./component/profile2";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,6 +19,7 @@ root.render(
         <Route index element={<App />} />
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="profile2" element={<Profile2 />} />
       {/* </Route> */}
     </Routes>
   </BrowserRouter>
