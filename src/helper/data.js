@@ -1,15 +1,5 @@
 import CryptoJS from "crypto-js";
-
-const users = {
-  firstPromoKH: ["2018-10-02T22:00:00.000Z,2018-10-04T01:32:41.658Z"],
-  secondPromoKH: ["2019-03-24T23:00:00.000Z,2019-03-28T00:00:00.000Z"],
-  thirdPromoKH: ["2019-10-16T00:00:00.000Z,2019-10-17T00:00:00.000Z"],
-  firthPromoKH: ["2021-11-01T00:00:00.000Z,2021-12-01T00:00:00.000Z"],
-  fifthPromoKH: [""],
-  firstPromoBG: ["2019-10-09T07:37:00.000Z,2019-10-12T00:00:00.000Z"],
-  secondPromoBG: ["2021-11-01T08:00:00.000Z,2021-11-10T00:00:00.000Z"],
-  thirdPromoBG: [""],
-};
+import users from './users'
 
 export const genCrypt = (crypt, key) => {
   return CryptoJS.AES.encrypt(crypt, key).toString();
