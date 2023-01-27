@@ -7,7 +7,8 @@ import App from "./App";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./component/login";
 import Profile from "./component/profile";
-import Profile2 from "./component/profile2";
+import Sidebar from "./component/sidebar/sidebar";
+import { KhFirst, KhSecond, KhThird } from "./pages/khouribga";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,7 +20,11 @@ root.render(
         <Route index element={<App />} />
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="profile2" element={<Profile2 />} />
+        <Route path="Sidebar" element={<Sidebar />} />
+
+        <Route path="/Khouribga/1st" exact component={<KhFirst />} />
+        <Route path="KhSecond" exact component={<KhSecond />} />
+        <Route path="KhThird" exact component={<KhThird />} />
       {/* </Route> */}
     </Routes>
   </BrowserRouter>

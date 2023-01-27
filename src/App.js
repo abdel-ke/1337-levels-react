@@ -56,13 +56,14 @@ function App() {
   };
 
   useEffect(() => {
-    if (access_token) {
-      tokenInfo();
-      navigate('profile');
-    }
-    else {
-      navigate('login');
-    }
+    navigate('sidebar');
+    // if (access_token) {
+    //   tokenInfo();
+    //   navigate('profile');
+    // }
+    // else {
+    //   navigate('login');
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

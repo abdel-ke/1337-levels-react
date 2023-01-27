@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import users from './users'
+import {users} from './users'
 
 export const genCrypt = (crypt, key) => {
   return CryptoJS.AES.encrypt(crypt, key).toString();
